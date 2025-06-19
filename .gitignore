@@ -1,0 +1,41 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# Optional: se você estiver usando ts-node ou ts-node-dev
+*.js
+*.js.map
+
+# VSCode
+.vscode/
+
+# IDEs
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Test coverage
+coverage/
+
+# Ambiente
+.env
+.env.*.local
+
+# Lockfiles (escolha apenas um, se estiver usando)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
