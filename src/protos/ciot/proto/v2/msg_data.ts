@@ -29,9 +29,10 @@ import { MqttClientData } from "./mqtt_client";
 import { HttpServerData } from "./http_server";
 import { HttpClientData } from "./http_client";
 import { SysData } from "./sys";
-import { Data } from "./ciot";
+import { Data as Data$ } from "./ciot";
 import { GetData } from "./iface";
 import { Common } from "./iface";
+import { Data } from "../../../hg/proto/v1/hg";
 /**
  * @generated from protobuf message Ciot.MsgData
  */
@@ -40,135 +41,141 @@ export interface MsgData {
      * @generated from protobuf oneof: type
      */
     type: {
+        oneofKind: "hg";
+        /**
+         * @generated from protobuf field: Hg.Data hg = 1
+         */
+        hg: Data; // Hedro Gateway data.
+    } | {
         oneofKind: "common";
         /**
-         * @generated from protobuf field: Ciot.Common common = 1
+         * @generated from protobuf field: Ciot.Common common = 2
          */
         common: Common; // Common data.
     } | {
         oneofKind: "getData";
         /**
-         * @generated from protobuf field: Ciot.GetData get_data = 2
+         * @generated from protobuf field: Ciot.GetData get_data = 3
          */
         getData: GetData; // Get data request.
     } | {
         oneofKind: "ciot";
         /**
-         * @generated from protobuf field: Ciot.Data ciot = 3
+         * @generated from protobuf field: Ciot.Data ciot = 4
          */
-        ciot: Data; // CioT data.
+        ciot: Data$; // CioT data.
     } | {
         oneofKind: "sys";
         /**
-         * @generated from protobuf field: Ciot.SysData sys = 4
+         * @generated from protobuf field: Ciot.SysData sys = 5
          */
         sys: SysData; // System data.
     } | {
         oneofKind: "httpClient";
         /**
-         * @generated from protobuf field: Ciot.HttpClientData http_client = 5
+         * @generated from protobuf field: Ciot.HttpClientData http_client = 6
          */
         httpClient: HttpClientData; // HTTP Client data.
     } | {
         oneofKind: "httpServer";
         /**
-         * @generated from protobuf field: Ciot.HttpServerData http_server = 6
+         * @generated from protobuf field: Ciot.HttpServerData http_server = 7
          */
         httpServer: HttpServerData; // HTTP Server data.
     } | {
         oneofKind: "mqttClient";
         /**
-         * @generated from protobuf field: Ciot.MqttClientData mqtt_client = 7
+         * @generated from protobuf field: Ciot.MqttClientData mqtt_client = 8
          */
         mqttClient: MqttClientData; // MQTT Client data.
     } | {
         oneofKind: "uart";
         /**
-         * @generated from protobuf field: Ciot.UartData uart = 8
+         * @generated from protobuf field: Ciot.UartData uart = 9
          */
         uart: UartData; // UART data.
     } | {
         oneofKind: "ntp";
         /**
-         * @generated from protobuf field: Ciot.NtpData ntp = 9
+         * @generated from protobuf field: Ciot.NtpData ntp = 10
          */
         ntp: NtpData; // NTP data.
     } | {
         oneofKind: "bleAdv";
         /**
-         * @generated from protobuf field: Ciot.BleAdvData ble_adv = 10
+         * @generated from protobuf field: Ciot.BleAdvData ble_adv = 11
          */
         bleAdv: BleAdvData; // BLE adv data.
     } | {
         oneofKind: "bleScn";
         /**
-         * @generated from protobuf field: Ciot.BleScnData ble_scn = 11
+         * @generated from protobuf field: Ciot.BleScnData ble_scn = 12
          */
         bleScn: BleScnData; // BLE scanner data.
     } | {
         oneofKind: "ble";
         /**
-         * @generated from protobuf field: Ciot.BleData ble = 12
+         * @generated from protobuf field: Ciot.BleData ble = 13
          */
         ble: BleData; // BLE data.
     } | {
         oneofKind: "dfu";
         /**
-         * @generated from protobuf field: Ciot.DfuData dfu = 13
+         * @generated from protobuf field: Ciot.DfuData dfu = 14
          */
         dfu: DfuData; // DFU data.
     } | {
         oneofKind: "gpio";
         /**
-         * @generated from protobuf field: Ciot.GpioData gpio = 14
+         * @generated from protobuf field: Ciot.GpioData gpio = 15
          */
         gpio: GpioData; // GPIO data.
     } | {
         oneofKind: "ota";
         /**
-         * @generated from protobuf field: Ciot.OtaData ota = 15
+         * @generated from protobuf field: Ciot.OtaData ota = 16
          */
         ota: OtaData; // OTA data.
     } | {
         oneofKind: "storage";
         /**
-         * @generated from protobuf field: Ciot.StorageData storage = 16
+         * @generated from protobuf field: Ciot.StorageData storage = 17
          */
         storage: StorageData; // Storage data.
     } | {
         oneofKind: "eth";
         /**
-         * @generated from protobuf field: Ciot.TcpData eth = 17
+         * @generated from protobuf field: Ciot.TcpData eth = 18
          */
         eth: TcpData; // Ethernet data.
     } | {
         oneofKind: "wifi";
         /**
-         * @generated from protobuf field: Ciot.WifiData wifi = 18
+         * @generated from protobuf field: Ciot.WifiData wifi = 19
          */
         wifi: WifiData; // WiFi data.
     } | {
         oneofKind: "log";
         /**
-         * @generated from protobuf field: Ciot.LogData log = 19
+         * @generated from protobuf field: Ciot.LogData log = 20
          */
         log: LogData; // Log data.
     } | {
         oneofKind: "usb";
         /**
-         * @generated from protobuf field: Ciot.UsbData usb = 20
+         * @generated from protobuf field: Ciot.UsbData usb = 21
          */
         usb: UsbData; // USB data.
     } | {
         oneofKind: "mbusClient";
         /**
-         * @generated from protobuf field: Ciot.MbusClientData mbus_client = 21
+         * @generated from protobuf field: Ciot.MbusClientData mbus_client = 22
          */
         mbusClient: MbusClientData; // Modbus client data.
     } | {
         oneofKind: "mbusServer";
         /**
-         * @generated from protobuf field: Ciot.MbusServerData mbus_server = 22
+         * @generated from protobuf field: Ciot.MbusServerData mbus_server = 23
          */
         mbusServer: MbusServerData; // Modbus server data.
     } | {
@@ -179,28 +186,29 @@ export interface MsgData {
 class MsgData$Type extends MessageType<MsgData> {
     constructor() {
         super("Ciot.MsgData", [
-            { no: 1, name: "common", kind: "message", oneof: "type", T: () => Common },
-            { no: 2, name: "get_data", kind: "message", oneof: "type", T: () => GetData },
-            { no: 3, name: "ciot", kind: "message", oneof: "type", T: () => Data },
-            { no: 4, name: "sys", kind: "message", oneof: "type", T: () => SysData },
-            { no: 5, name: "http_client", kind: "message", oneof: "type", T: () => HttpClientData },
-            { no: 6, name: "http_server", kind: "message", oneof: "type", T: () => HttpServerData },
-            { no: 7, name: "mqtt_client", kind: "message", oneof: "type", T: () => MqttClientData },
-            { no: 8, name: "uart", kind: "message", oneof: "type", T: () => UartData },
-            { no: 9, name: "ntp", kind: "message", oneof: "type", T: () => NtpData },
-            { no: 10, name: "ble_adv", kind: "message", oneof: "type", T: () => BleAdvData },
-            { no: 11, name: "ble_scn", kind: "message", oneof: "type", T: () => BleScnData },
-            { no: 12, name: "ble", kind: "message", oneof: "type", T: () => BleData },
-            { no: 13, name: "dfu", kind: "message", oneof: "type", T: () => DfuData },
-            { no: 14, name: "gpio", kind: "message", oneof: "type", T: () => GpioData },
-            { no: 15, name: "ota", kind: "message", oneof: "type", T: () => OtaData },
-            { no: 16, name: "storage", kind: "message", oneof: "type", T: () => StorageData },
-            { no: 17, name: "eth", kind: "message", oneof: "type", T: () => TcpData },
-            { no: 18, name: "wifi", kind: "message", oneof: "type", T: () => WifiData },
-            { no: 19, name: "log", kind: "message", oneof: "type", T: () => LogData },
-            { no: 20, name: "usb", kind: "message", oneof: "type", T: () => UsbData },
-            { no: 21, name: "mbus_client", kind: "message", oneof: "type", T: () => MbusClientData },
-            { no: 22, name: "mbus_server", kind: "message", oneof: "type", T: () => MbusServerData }
+            { no: 1, name: "hg", kind: "message", oneof: "type", T: () => Data },
+            { no: 2, name: "common", kind: "message", oneof: "type", T: () => Common },
+            { no: 3, name: "get_data", kind: "message", oneof: "type", T: () => GetData },
+            { no: 4, name: "ciot", kind: "message", oneof: "type", T: () => Data$ },
+            { no: 5, name: "sys", kind: "message", oneof: "type", T: () => SysData },
+            { no: 6, name: "http_client", kind: "message", oneof: "type", T: () => HttpClientData },
+            { no: 7, name: "http_server", kind: "message", oneof: "type", T: () => HttpServerData },
+            { no: 8, name: "mqtt_client", kind: "message", oneof: "type", T: () => MqttClientData },
+            { no: 9, name: "uart", kind: "message", oneof: "type", T: () => UartData },
+            { no: 10, name: "ntp", kind: "message", oneof: "type", T: () => NtpData },
+            { no: 11, name: "ble_adv", kind: "message", oneof: "type", T: () => BleAdvData },
+            { no: 12, name: "ble_scn", kind: "message", oneof: "type", T: () => BleScnData },
+            { no: 13, name: "ble", kind: "message", oneof: "type", T: () => BleData },
+            { no: 14, name: "dfu", kind: "message", oneof: "type", T: () => DfuData },
+            { no: 15, name: "gpio", kind: "message", oneof: "type", T: () => GpioData },
+            { no: 16, name: "ota", kind: "message", oneof: "type", T: () => OtaData },
+            { no: 17, name: "storage", kind: "message", oneof: "type", T: () => StorageData },
+            { no: 18, name: "eth", kind: "message", oneof: "type", T: () => TcpData },
+            { no: 19, name: "wifi", kind: "message", oneof: "type", T: () => WifiData },
+            { no: 20, name: "log", kind: "message", oneof: "type", T: () => LogData },
+            { no: 21, name: "usb", kind: "message", oneof: "type", T: () => UsbData },
+            { no: 22, name: "mbus_client", kind: "message", oneof: "type", T: () => MbusClientData },
+            { no: 23, name: "mbus_server", kind: "message", oneof: "type", T: () => MbusServerData }
         ]);
     }
     create(value?: PartialMessage<MsgData>): MsgData {
@@ -215,133 +223,139 @@ class MsgData$Type extends MessageType<MsgData> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* Ciot.Common common */ 1:
+                case /* Hg.Data hg */ 1:
+                    message.type = {
+                        oneofKind: "hg",
+                        hg: Data.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).hg)
+                    };
+                    break;
+                case /* Ciot.Common common */ 2:
                     message.type = {
                         oneofKind: "common",
                         common: Common.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).common)
                     };
                     break;
-                case /* Ciot.GetData get_data */ 2:
+                case /* Ciot.GetData get_data */ 3:
                     message.type = {
                         oneofKind: "getData",
                         getData: GetData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).getData)
                     };
                     break;
-                case /* Ciot.Data ciot */ 3:
+                case /* Ciot.Data ciot */ 4:
                     message.type = {
                         oneofKind: "ciot",
-                        ciot: Data.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).ciot)
+                        ciot: Data$.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).ciot)
                     };
                     break;
-                case /* Ciot.SysData sys */ 4:
+                case /* Ciot.SysData sys */ 5:
                     message.type = {
                         oneofKind: "sys",
                         sys: SysData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).sys)
                     };
                     break;
-                case /* Ciot.HttpClientData http_client */ 5:
+                case /* Ciot.HttpClientData http_client */ 6:
                     message.type = {
                         oneofKind: "httpClient",
                         httpClient: HttpClientData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).httpClient)
                     };
                     break;
-                case /* Ciot.HttpServerData http_server */ 6:
+                case /* Ciot.HttpServerData http_server */ 7:
                     message.type = {
                         oneofKind: "httpServer",
                         httpServer: HttpServerData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).httpServer)
                     };
                     break;
-                case /* Ciot.MqttClientData mqtt_client */ 7:
+                case /* Ciot.MqttClientData mqtt_client */ 8:
                     message.type = {
                         oneofKind: "mqttClient",
                         mqttClient: MqttClientData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).mqttClient)
                     };
                     break;
-                case /* Ciot.UartData uart */ 8:
+                case /* Ciot.UartData uart */ 9:
                     message.type = {
                         oneofKind: "uart",
                         uart: UartData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).uart)
                     };
                     break;
-                case /* Ciot.NtpData ntp */ 9:
+                case /* Ciot.NtpData ntp */ 10:
                     message.type = {
                         oneofKind: "ntp",
                         ntp: NtpData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).ntp)
                     };
                     break;
-                case /* Ciot.BleAdvData ble_adv */ 10:
+                case /* Ciot.BleAdvData ble_adv */ 11:
                     message.type = {
                         oneofKind: "bleAdv",
                         bleAdv: BleAdvData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).bleAdv)
                     };
                     break;
-                case /* Ciot.BleScnData ble_scn */ 11:
+                case /* Ciot.BleScnData ble_scn */ 12:
                     message.type = {
                         oneofKind: "bleScn",
                         bleScn: BleScnData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).bleScn)
                     };
                     break;
-                case /* Ciot.BleData ble */ 12:
+                case /* Ciot.BleData ble */ 13:
                     message.type = {
                         oneofKind: "ble",
                         ble: BleData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).ble)
                     };
                     break;
-                case /* Ciot.DfuData dfu */ 13:
+                case /* Ciot.DfuData dfu */ 14:
                     message.type = {
                         oneofKind: "dfu",
                         dfu: DfuData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).dfu)
                     };
                     break;
-                case /* Ciot.GpioData gpio */ 14:
+                case /* Ciot.GpioData gpio */ 15:
                     message.type = {
                         oneofKind: "gpio",
                         gpio: GpioData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).gpio)
                     };
                     break;
-                case /* Ciot.OtaData ota */ 15:
+                case /* Ciot.OtaData ota */ 16:
                     message.type = {
                         oneofKind: "ota",
                         ota: OtaData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).ota)
                     };
                     break;
-                case /* Ciot.StorageData storage */ 16:
+                case /* Ciot.StorageData storage */ 17:
                     message.type = {
                         oneofKind: "storage",
                         storage: StorageData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).storage)
                     };
                     break;
-                case /* Ciot.TcpData eth */ 17:
+                case /* Ciot.TcpData eth */ 18:
                     message.type = {
                         oneofKind: "eth",
                         eth: TcpData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).eth)
                     };
                     break;
-                case /* Ciot.WifiData wifi */ 18:
+                case /* Ciot.WifiData wifi */ 19:
                     message.type = {
                         oneofKind: "wifi",
                         wifi: WifiData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).wifi)
                     };
                     break;
-                case /* Ciot.LogData log */ 19:
+                case /* Ciot.LogData log */ 20:
                     message.type = {
                         oneofKind: "log",
                         log: LogData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).log)
                     };
                     break;
-                case /* Ciot.UsbData usb */ 20:
+                case /* Ciot.UsbData usb */ 21:
                     message.type = {
                         oneofKind: "usb",
                         usb: UsbData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).usb)
                     };
                     break;
-                case /* Ciot.MbusClientData mbus_client */ 21:
+                case /* Ciot.MbusClientData mbus_client */ 22:
                     message.type = {
                         oneofKind: "mbusClient",
                         mbusClient: MbusClientData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).mbusClient)
                     };
                     break;
-                case /* Ciot.MbusServerData mbus_server */ 22:
+                case /* Ciot.MbusServerData mbus_server */ 23:
                     message.type = {
                         oneofKind: "mbusServer",
                         mbusServer: MbusServerData.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).mbusServer)
@@ -359,72 +373,75 @@ class MsgData$Type extends MessageType<MsgData> {
         return message;
     }
     internalBinaryWrite(message: MsgData, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* Ciot.Common common = 1; */
+        /* Hg.Data hg = 1; */
+        if (message.type.oneofKind === "hg")
+            Data.internalBinaryWrite(message.type.hg, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.Common common = 2; */
         if (message.type.oneofKind === "common")
-            Common.internalBinaryWrite(message.type.common, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.GetData get_data = 2; */
+            Common.internalBinaryWrite(message.type.common, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.GetData get_data = 3; */
         if (message.type.oneofKind === "getData")
-            GetData.internalBinaryWrite(message.type.getData, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.Data ciot = 3; */
+            GetData.internalBinaryWrite(message.type.getData, writer.tag(3, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.Data ciot = 4; */
         if (message.type.oneofKind === "ciot")
-            Data.internalBinaryWrite(message.type.ciot, writer.tag(3, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.SysData sys = 4; */
+            Data$.internalBinaryWrite(message.type.ciot, writer.tag(4, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.SysData sys = 5; */
         if (message.type.oneofKind === "sys")
-            SysData.internalBinaryWrite(message.type.sys, writer.tag(4, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.HttpClientData http_client = 5; */
+            SysData.internalBinaryWrite(message.type.sys, writer.tag(5, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.HttpClientData http_client = 6; */
         if (message.type.oneofKind === "httpClient")
-            HttpClientData.internalBinaryWrite(message.type.httpClient, writer.tag(5, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.HttpServerData http_server = 6; */
+            HttpClientData.internalBinaryWrite(message.type.httpClient, writer.tag(6, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.HttpServerData http_server = 7; */
         if (message.type.oneofKind === "httpServer")
-            HttpServerData.internalBinaryWrite(message.type.httpServer, writer.tag(6, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.MqttClientData mqtt_client = 7; */
+            HttpServerData.internalBinaryWrite(message.type.httpServer, writer.tag(7, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.MqttClientData mqtt_client = 8; */
         if (message.type.oneofKind === "mqttClient")
-            MqttClientData.internalBinaryWrite(message.type.mqttClient, writer.tag(7, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.UartData uart = 8; */
+            MqttClientData.internalBinaryWrite(message.type.mqttClient, writer.tag(8, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.UartData uart = 9; */
         if (message.type.oneofKind === "uart")
-            UartData.internalBinaryWrite(message.type.uart, writer.tag(8, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.NtpData ntp = 9; */
+            UartData.internalBinaryWrite(message.type.uart, writer.tag(9, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.NtpData ntp = 10; */
         if (message.type.oneofKind === "ntp")
-            NtpData.internalBinaryWrite(message.type.ntp, writer.tag(9, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.BleAdvData ble_adv = 10; */
+            NtpData.internalBinaryWrite(message.type.ntp, writer.tag(10, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.BleAdvData ble_adv = 11; */
         if (message.type.oneofKind === "bleAdv")
-            BleAdvData.internalBinaryWrite(message.type.bleAdv, writer.tag(10, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.BleScnData ble_scn = 11; */
+            BleAdvData.internalBinaryWrite(message.type.bleAdv, writer.tag(11, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.BleScnData ble_scn = 12; */
         if (message.type.oneofKind === "bleScn")
-            BleScnData.internalBinaryWrite(message.type.bleScn, writer.tag(11, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.BleData ble = 12; */
+            BleScnData.internalBinaryWrite(message.type.bleScn, writer.tag(12, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.BleData ble = 13; */
         if (message.type.oneofKind === "ble")
-            BleData.internalBinaryWrite(message.type.ble, writer.tag(12, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.DfuData dfu = 13; */
+            BleData.internalBinaryWrite(message.type.ble, writer.tag(13, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.DfuData dfu = 14; */
         if (message.type.oneofKind === "dfu")
-            DfuData.internalBinaryWrite(message.type.dfu, writer.tag(13, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.GpioData gpio = 14; */
+            DfuData.internalBinaryWrite(message.type.dfu, writer.tag(14, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.GpioData gpio = 15; */
         if (message.type.oneofKind === "gpio")
-            GpioData.internalBinaryWrite(message.type.gpio, writer.tag(14, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.OtaData ota = 15; */
+            GpioData.internalBinaryWrite(message.type.gpio, writer.tag(15, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.OtaData ota = 16; */
         if (message.type.oneofKind === "ota")
-            OtaData.internalBinaryWrite(message.type.ota, writer.tag(15, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.StorageData storage = 16; */
+            OtaData.internalBinaryWrite(message.type.ota, writer.tag(16, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.StorageData storage = 17; */
         if (message.type.oneofKind === "storage")
-            StorageData.internalBinaryWrite(message.type.storage, writer.tag(16, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.TcpData eth = 17; */
+            StorageData.internalBinaryWrite(message.type.storage, writer.tag(17, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.TcpData eth = 18; */
         if (message.type.oneofKind === "eth")
-            TcpData.internalBinaryWrite(message.type.eth, writer.tag(17, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.WifiData wifi = 18; */
+            TcpData.internalBinaryWrite(message.type.eth, writer.tag(18, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.WifiData wifi = 19; */
         if (message.type.oneofKind === "wifi")
-            WifiData.internalBinaryWrite(message.type.wifi, writer.tag(18, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.LogData log = 19; */
+            WifiData.internalBinaryWrite(message.type.wifi, writer.tag(19, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.LogData log = 20; */
         if (message.type.oneofKind === "log")
-            LogData.internalBinaryWrite(message.type.log, writer.tag(19, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.UsbData usb = 20; */
+            LogData.internalBinaryWrite(message.type.log, writer.tag(20, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.UsbData usb = 21; */
         if (message.type.oneofKind === "usb")
-            UsbData.internalBinaryWrite(message.type.usb, writer.tag(20, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.MbusClientData mbus_client = 21; */
+            UsbData.internalBinaryWrite(message.type.usb, writer.tag(21, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.MbusClientData mbus_client = 22; */
         if (message.type.oneofKind === "mbusClient")
-            MbusClientData.internalBinaryWrite(message.type.mbusClient, writer.tag(21, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.MbusServerData mbus_server = 22; */
+            MbusClientData.internalBinaryWrite(message.type.mbusClient, writer.tag(22, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.MbusServerData mbus_server = 23; */
         if (message.type.oneofKind === "mbusServer")
-            MbusServerData.internalBinaryWrite(message.type.mbusServer, writer.tag(22, WireType.LengthDelimited).fork(), options).join();
+            MbusServerData.internalBinaryWrite(message.type.mbusServer, writer.tag(23, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
