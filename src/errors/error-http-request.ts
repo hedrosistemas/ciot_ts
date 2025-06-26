@@ -1,4 +1,5 @@
 // error-http-request.ts
+import { Err } from '../protos/ciot/proto/v2/errors';
 import { ErrorBase } from './error-base';
 
 export class ErrorHttpRequest extends ErrorBase {
@@ -9,5 +10,6 @@ export class ErrorHttpRequest extends ErrorBase {
     super(`HTTP request failed with status ${status}`);
     this.status = status;
     this.body = body;
+    this.code = Err.TRANSPORT
   }
 }
