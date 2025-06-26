@@ -25,7 +25,7 @@ const httpClient = new HttpClient(IfaceInfo.create({
 }));
 
 const httpClientCfg = HttpClientCfg.create({
-  url: "http://127.0.0.1:5050/v1/pd",
+  url: "http://192.168.4.1:5050/v1/device",
   method: HttpClientMethod.HTTP_METHOD_POST,
   transport: HttpClientTransportType.HTTP_TRANSPORT_TCP,
   timeout: 5000,
