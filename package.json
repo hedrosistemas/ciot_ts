@@ -16,9 +16,5 @@
   },
   "dependencies": {
     "fp-ts": "^2.16.10"
-  },
-  "files": [
-    "src",
-    "src/protos"
-  ]
+  }
 }
