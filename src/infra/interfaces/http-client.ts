@@ -4,11 +4,13 @@ import { ErrorBase } from '../../errors/error-base';
 import { ErrorInvalidType } from '../../errors/error-invalid-type';
 import { ErrorNotImplemented } from '../../errors/error-not-implemented';
 import { ErrorInvalidConfig } from '../../errors/error-invalid-config';
-import { ErrorException } from '../../errors/error-exception'; 
+import { ErrorException } from '../../errors/error-exception';
 import { IfaceInfo } from '../../protos/ciot/proto/v2/iface';
 import { MsgData } from '../../protos/ciot/proto/v2/msg_data';
 import { HttpClientCfg, HttpClientMethod, HttpClientStatus } from '../../protos/ciot/proto/v2/http_client';
 import { Event, EventType } from '../../protos/ciot/proto/v2/event';
+import { ErrorNotFound } from '../../errors/error-not-found';
+import { ErrorHttpRequest } from '../../errors/error-http-request';
 
 export class HttpClient extends IfaceBase {
     onEvent: AsyncIterable<Event>;
@@ -35,8 +37,7 @@ export class HttpClient extends IfaceBase {
     }
 
     getData(data: MsgData): Promise<Either<ErrorBase, MsgData>> {
-        if(data.type.oneofKind != 'httpClient')
-        {
+        if (data.type.oneofKind != 'httpClient') {
             return Promise.resolve(left(new ErrorInvalidType()));
         }
 
@@ -55,8 +56,7 @@ export class HttpClient extends IfaceBase {
     }
 
     processData(data: MsgData): Promise<Either<ErrorBase, MsgData>> {
-        if(data.type.oneofKind != 'httpClient')
-        {
+        if (data.type.oneofKind != 'httpClient') {
             return Promise.resolve(left(new ErrorInvalidType()));
         }
 
@@ -74,19 +74,30 @@ export class HttpClient extends IfaceBase {
     }
 
     async sendData(data: Uint8Array): Promise<Either<ErrorBase, Uint8Array>> {
-        if(this._cfg == null) return Promise.resolve(left(new ErrorInvalidConfig()));
+        if (this._cfg == null) return Promise.resolve(left(new ErrorInvalidConfig()));
         try {
             const response = await fetch(this._cfg.url, {
                 method: this.httpClientMethodToString(this._cfg.method),
-                body: data
+                body: data,
+                signal: AbortSignal.timeout(this._cfg.timeout),
             });
-            return Promise.resolve(right(await response.bytes()));
+            var body = await response.bytes();
+            if (response.ok) {
+                return Promise.resolve(right(body));
+            } else {
+                switch (response.status) {
+                    case 404:
+                        return Promise.resolve(left(new ErrorNotFound()));
+                    default:
+                        return Promise.resolve(left(new ErrorHttpRequest(response.status, body)));
+                }
+            }
         } catch (error) {
             return Promise.resolve(left(new ErrorException(error)));
         }
     }
 
-    httpClientMethodToString(method: HttpClientMethod) : string {
+    httpClientMethodToString(method: HttpClientMethod): string {
         switch (method) {
             case HttpClientMethod.HTTP_METHOD_GET:
                 return 'GET';
