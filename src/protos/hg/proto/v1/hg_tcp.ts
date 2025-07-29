@@ -96,6 +96,10 @@ export interface TcpProvReq {
      * @generated from protobuf field: string org_id = 6
      */
     orgId: string; // Organization ID
+    /**
+     * @generated from protobuf field: uint32 sn = 7
+     */
+    sn: number; // Gateway Serial number
 }
 /**
  * HG TCP Module data saved on device flash memory
@@ -578,7 +582,8 @@ class TcpProvReq$Type extends MessageType<TcpProvReq> {
             { no: 3, name: "ntp", kind: "message", T: () => NtpCfg },
             { no: 4, name: "mqtt", kind: "message", T: () => MqttClientCfg },
             { no: 5, name: "mqtt_network", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "org_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 6, name: "org_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 7, name: "sn", kind: "scalar", T: 13 /*ScalarType.UINT32*/ }
         ]);
     }
     create(value?: PartialMessage<TcpProvReq>): TcpProvReq {
@@ -586,6 +591,7 @@ class TcpProvReq$Type extends MessageType<TcpProvReq> {
         message.t = 0n;
         message.mqttNetwork = "";
         message.orgId = "";
+        message.sn = 0;
         if (value !== undefined)
             reflectionMergePartial<TcpProvReq>(this, message, value);
         return message;
@@ -612,6 +618,9 @@ class TcpProvReq$Type extends MessageType<TcpProvReq> {
                     break;
                 case /* string org_id */ 6:
                     message.orgId = reader.string();
+                    break;
+                case /* uint32 sn */ 7:
+                    message.sn = reader.uint32();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -643,6 +652,9 @@ class TcpProvReq$Type extends MessageType<TcpProvReq> {
         /* string org_id = 6; */
         if (message.orgId !== "")
             writer.tag(6, WireType.LengthDelimited).string(message.orgId);
+        /* uint32 sn = 7; */
+        if (message.sn !== 0)
+            writer.tag(7, WireType.Varint).uint32(message.sn);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
