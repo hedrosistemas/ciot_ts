@@ -332,6 +332,48 @@ export enum Err {
      */
     NULL_EVENT_HANDLER = 51,
     /**
+     * Base error code for OTA errors
+     *
+     * @generated from protobuf enum value: ERR_OTA_BASE = 5376;
+     */
+    OTA_BASE = 5376,
+    /**
+     * OTA partition conflict
+     *
+     * @generated from protobuf enum value: ERR_OTA_PARTITION_CONFLICT = 5377;
+     */
+    OTA_PARTITION_CONFLICT = 5377,
+    /**
+     * OTA select info invalid
+     *
+     * @generated from protobuf enum value: ERR_OTA_SELECT_INFO_INVALID = 5378;
+     */
+    OTA_SELECT_INFO_INVALID = 5378,
+    /**
+     * OTA validate failed
+     *
+     * @generated from protobuf enum value: ERR_OTA_VALIDATE_FAILED = 5379;
+     */
+    OTA_VALIDATE_FAILED = 5379,
+    /**
+     * OTA small security version
+     *
+     * @generated from protobuf enum value: ERR_OTA_SMALL_SEC_VER = 5380;
+     */
+    OTA_SMALL_SEC_VER = 5380,
+    /**
+     * OTA rollback failed
+     *
+     * @generated from protobuf enum value: ERR_OTA_ROLLBACK_FAILED = 5381;
+     */
+    OTA_ROLLBACK_FAILED = 5381,
+    /**
+     * OTA rollback invalid state
+     *
+     * @generated from protobuf enum value: ERR_OTA_ROLLBACK_INVALID_STATE = 5382;
+     */
+    OTA_ROLLBACK_INVALID_STATE = 5382,
+    /**
      * Modbus exception 1
      *
      * @generated from protobuf enum value: ERR_MBUS_EXCEPTION_ILLEGAL_FUNCTION = 101;
