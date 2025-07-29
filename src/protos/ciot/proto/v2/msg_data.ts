@@ -29,9 +29,10 @@ import { MqttClientData } from "./mqtt_client";
 import { HttpServerData } from "./http_server";
 import { HttpClientData } from "./http_client";
 import { SysData } from "./sys";
-import { Data } from "./ciot";
+import { Data as Data$ } from "./ciot";
 import { GetData } from "./iface";
 import { Common } from "./iface";
+import { Data } from "../../../hg/proto/v1/hg";
 /**
  * @generated from protobuf message Ciot.MsgData
  */
@@ -40,10 +41,14 @@ export interface MsgData {
      * @generated from protobuf oneof: type
      */
     type: {
+        oneofKind: "hg";
+        /**
+         * @generated from protobuf field: Hg.Data hg = 1
+         */
+        hg: Data; // Hedro Gateway data.
+    } | {
         oneofKind: "common";
         /**
-         * CustomType custom = 1;        // Custom data.
-         *
          * @generated from protobuf field: Ciot.Common common = 2
          */
         common: Common; // Common data.
@@ -58,7 +63,7 @@ export interface MsgData {
         /**
          * @generated from protobuf field: Ciot.Data ciot = 4
          */
-        ciot: Data; // CioT data.
+        ciot: Data$; // CioT data.
     } | {
         oneofKind: "sys";
         /**
@@ -181,9 +186,10 @@ export interface MsgData {
 class MsgData$Type extends MessageType<MsgData> {
     constructor() {
         super("Ciot.MsgData", [
+            { no: 1, name: "hg", kind: "message", oneof: "type", T: () => Data },
             { no: 2, name: "common", kind: "message", oneof: "type", T: () => Common },
             { no: 3, name: "get_data", kind: "message", oneof: "type", T: () => GetData },
-            { no: 4, name: "ciot", kind: "message", oneof: "type", T: () => Data },
+            { no: 4, name: "ciot", kind: "message", oneof: "type", T: () => Data$ },
             { no: 5, name: "sys", kind: "message", oneof: "type", T: () => SysData },
             { no: 6, name: "http_client", kind: "message", oneof: "type", T: () => HttpClientData },
             { no: 7, name: "http_server", kind: "message", oneof: "type", T: () => HttpServerData },
@@ -217,6 +223,12 @@ class MsgData$Type extends MessageType<MsgData> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
+                case /* Hg.Data hg */ 1:
+                    message.type = {
+                        oneofKind: "hg",
+                        hg: Data.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).hg)
+                    };
+                    break;
                 case /* Ciot.Common common */ 2:
                     message.type = {
                         oneofKind: "common",
@@ -232,7 +244,7 @@ class MsgData$Type extends MessageType<MsgData> {
                 case /* Ciot.Data ciot */ 4:
                     message.type = {
                         oneofKind: "ciot",
-                        ciot: Data.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).ciot)
+                        ciot: Data$.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).ciot)
                     };
                     break;
                 case /* Ciot.SysData sys */ 5:
@@ -361,6 +373,9 @@ class MsgData$Type extends MessageType<MsgData> {
         return message;
     }
     internalBinaryWrite(message: MsgData, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* Hg.Data hg = 1; */
+        if (message.type.oneofKind === "hg")
+            Data.internalBinaryWrite(message.type.hg, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         /* Ciot.Common common = 2; */
         if (message.type.oneofKind === "common")
             Common.internalBinaryWrite(message.type.common, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
@@ -369,7 +384,7 @@ class MsgData$Type extends MessageType<MsgData> {
             GetData.internalBinaryWrite(message.type.getData, writer.tag(3, WireType.LengthDelimited).fork(), options).join();
         /* Ciot.Data ciot = 4; */
         if (message.type.oneofKind === "ciot")
-            Data.internalBinaryWrite(message.type.ciot, writer.tag(4, WireType.LengthDelimited).fork(), options).join();
+            Data$.internalBinaryWrite(message.type.ciot, writer.tag(4, WireType.LengthDelimited).fork(), options).join();
         /* Ciot.SysData sys = 5; */
         if (message.type.oneofKind === "sys")
             SysData.internalBinaryWrite(message.type.sys, writer.tag(5, WireType.LengthDelimited).fork(), options).join();
