@@ -10,11 +10,6 @@ import { UnknownFieldHandler } from "@protobuf-ts/runtime";
 import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
-import { BleAdv } from "../../../hg/proto/v1/hg_ble";
-import { BleHealth } from "../../../hg/proto/v1/hg_ble";
-import { TcpHealth } from "../../../hg/proto/v1/hg_tcp";
-import { TcpProvAvailable } from "../../../hg/proto/v1/hg_tcp";
-import { Ack } from "../../../pcm/proto/v1/pcm";
 import { Msg } from "./msg";
 /**
  * Message representing an CIoT event
@@ -41,36 +36,6 @@ export interface Event {
          * @generated from protobuf field: bytes raw = 3
          */
         raw: Uint8Array; // Event raw data
-    } | {
-        oneofKind: "pcmAck";
-        /**
-         * @generated from protobuf field: Pcm.Ack pcm_ack = 4
-         */
-        pcmAck: Ack; // Event pcm ack
-    } | {
-        oneofKind: "provAvailable";
-        /**
-         * @generated from protobuf field: Hg.TcpProvAvailable prov_available = 5
-         */
-        provAvailable: TcpProvAvailable; // Event tcp prov available
-    } | {
-        oneofKind: "tcpHealth";
-        /**
-         * @generated from protobuf field: Hg.TcpHealth tcp_health = 6
-         */
-        tcpHealth: TcpHealth; // Event tcp health
-    } | {
-        oneofKind: "bleHealth";
-        /**
-         * @generated from protobuf field: Hg.BleHealth ble_health = 7
-         */
-        bleHealth: BleHealth; // Event ble health
-    } | {
-        oneofKind: "bleAdv";
-        /**
-         * @generated from protobuf field: Hg.BleAdv ble_adv = 8
-         */
-        bleAdv: BleAdv; // Event ble adv
     } | {
         oneofKind: undefined;
     };
@@ -148,12 +113,7 @@ class Event$Type extends MessageType<Event> {
         super("Ciot.Event", [
             { no: 1, name: "type", kind: "enum", T: () => ["Ciot.EventType", EventType, "EVENT_TYPE_"] },
             { no: 2, name: "msg", kind: "message", oneof: "data", T: () => Msg },
-            { no: 3, name: "raw", kind: "scalar", oneof: "data", T: 12 /*ScalarType.BYTES*/ },
-            { no: 4, name: "pcm_ack", kind: "message", oneof: "data", T: () => Ack },
-            { no: 5, name: "prov_available", kind: "message", oneof: "data", T: () => TcpProvAvailable },
-            { no: 6, name: "tcp_health", kind: "message", oneof: "data", T: () => TcpHealth },
-            { no: 7, name: "ble_health", kind: "message", oneof: "data", T: () => BleHealth },
-            { no: 8, name: "ble_adv", kind: "message", oneof: "data", T: () => BleAdv }
+            { no: 3, name: "raw", kind: "scalar", oneof: "data", T: 12 /*ScalarType.BYTES*/ }
         ]);
     }
     create(value?: PartialMessage<Event>): Event {
@@ -184,36 +144,6 @@ class Event$Type extends MessageType<Event> {
                         raw: reader.bytes()
                     };
                     break;
-                case /* Pcm.Ack pcm_ack */ 4:
-                    message.data = {
-                        oneofKind: "pcmAck",
-                        pcmAck: Ack.internalBinaryRead(reader, reader.uint32(), options, (message.data as any).pcmAck)
-                    };
-                    break;
-                case /* Hg.TcpProvAvailable prov_available */ 5:
-                    message.data = {
-                        oneofKind: "provAvailable",
-                        provAvailable: TcpProvAvailable.internalBinaryRead(reader, reader.uint32(), options, (message.data as any).provAvailable)
-                    };
-                    break;
-                case /* Hg.TcpHealth tcp_health */ 6:
-                    message.data = {
-                        oneofKind: "tcpHealth",
-                        tcpHealth: TcpHealth.internalBinaryRead(reader, reader.uint32(), options, (message.data as any).tcpHealth)
-                    };
-                    break;
-                case /* Hg.BleHealth ble_health */ 7:
-                    message.data = {
-                        oneofKind: "bleHealth",
-                        bleHealth: BleHealth.internalBinaryRead(reader, reader.uint32(), options, (message.data as any).bleHealth)
-                    };
-                    break;
-                case /* Hg.BleAdv ble_adv */ 8:
-                    message.data = {
-                        oneofKind: "bleAdv",
-                        bleAdv: BleAdv.internalBinaryRead(reader, reader.uint32(), options, (message.data as any).bleAdv)
-                    };
-                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -235,21 +165,6 @@ class Event$Type extends MessageType<Event> {
         /* bytes raw = 3; */
         if (message.data.oneofKind === "raw")
             writer.tag(3, WireType.LengthDelimited).bytes(message.data.raw);
-        /* Pcm.Ack pcm_ack = 4; */
-        if (message.data.oneofKind === "pcmAck")
-            Ack.internalBinaryWrite(message.data.pcmAck, writer.tag(4, WireType.LengthDelimited).fork(), options).join();
-        /* Hg.TcpProvAvailable prov_available = 5; */
-        if (message.data.oneofKind === "provAvailable")
-            TcpProvAvailable.internalBinaryWrite(message.data.provAvailable, writer.tag(5, WireType.LengthDelimited).fork(), options).join();
-        /* Hg.TcpHealth tcp_health = 6; */
-        if (message.data.oneofKind === "tcpHealth")
-            TcpHealth.internalBinaryWrite(message.data.tcpHealth, writer.tag(6, WireType.LengthDelimited).fork(), options).join();
-        /* Hg.BleHealth ble_health = 7; */
-        if (message.data.oneofKind === "bleHealth")
-            BleHealth.internalBinaryWrite(message.data.bleHealth, writer.tag(7, WireType.LengthDelimited).fork(), options).join();
-        /* Hg.BleAdv ble_adv = 8; */
-        if (message.data.oneofKind === "bleAdv")
-            BleAdv.internalBinaryWrite(message.data.bleAdv, writer.tag(8, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
