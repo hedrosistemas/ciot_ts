@@ -32,10 +32,6 @@ export interface OtaCfg {
      */
     force: boolean; // Force OTA update.
     /**
-     * @generated from protobuf field: bool encrypted = 3
-     */
-    encrypted: boolean; // Encrypted OTA update.
-    /**
      * @generated from protobuf field: bool restart = 4
      */
     restart: boolean; // Restart device after OTA update.
@@ -73,6 +69,18 @@ export interface OtaStatus {
  * @generated from protobuf message Ciot.OtaReq
  */
 export interface OtaReq {
+    /**
+     * @generated from protobuf oneof: type
+     */
+    type: {
+        oneofKind: "cmd";
+        /**
+         * @generated from protobuf field: Ciot.OtaCmd cmd = 1
+         */
+        cmd: OtaCmd; // OTA command.
+    } | {
+        oneofKind: undefined;
+    };
 }
 /**
  * Message representing data for the OTA process.
@@ -203,6 +211,23 @@ export enum OtaState {
      */
     ERROR = 10
 }
+/**
+ * @generated from protobuf enum Ciot.OtaCmd
+ */
+export enum OtaCmd {
+    /**
+     * No command.
+     *
+     * @generated from protobuf enum value: OTA_CMD_NONE = 0;
+     */
+    NONE = 0,
+    /**
+     * Rollback command.
+     *
+     * @generated from protobuf enum value: OTA_CMD_ROLLBACK = 1;
+     */
+    ROLLBACK = 1
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class OtaStop$Type extends MessageType<OtaStop> {
     constructor() {
@@ -247,7 +272,6 @@ class OtaCfg$Type extends MessageType<OtaCfg> {
         super("Ciot.OtaCfg", [
             { no: 1, name: "url", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "force", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 3, name: "encrypted", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 4, name: "restart", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
             { no: 5, name: "type", kind: "enum", T: () => ["Ciot.OtaType", OtaType, "OTA_TYPE_"] }
         ]);
@@ -256,7 +280,6 @@ class OtaCfg$Type extends MessageType<OtaCfg> {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.url = "";
         message.force = false;
-        message.encrypted = false;
         message.restart = false;
         message.type = 0;
         if (value !== undefined)
@@ -273,9 +296,6 @@ class OtaCfg$Type extends MessageType<OtaCfg> {
                     break;
                 case /* bool force */ 2:
                     message.force = reader.bool();
-                    break;
-                case /* bool encrypted */ 3:
-                    message.encrypted = reader.bool();
                     break;
                 case /* bool restart */ 4:
                     message.restart = reader.bool();
@@ -301,9 +321,6 @@ class OtaCfg$Type extends MessageType<OtaCfg> {
         /* bool force = 2; */
         if (message.force !== false)
             writer.tag(2, WireType.Varint).bool(message.force);
-        /* bool encrypted = 3; */
-        if (message.encrypted !== false)
-            writer.tag(3, WireType.Varint).bool(message.encrypted);
         /* bool restart = 4; */
         if (message.restart !== false)
             writer.tag(4, WireType.Varint).bool(message.restart);
@@ -394,10 +411,13 @@ export const OtaStatus = new OtaStatus$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class OtaReq$Type extends MessageType<OtaReq> {
     constructor() {
-        super("Ciot.OtaReq", []);
+        super("Ciot.OtaReq", [
+            { no: 1, name: "cmd", kind: "enum", oneof: "type", T: () => ["Ciot.OtaCmd", OtaCmd, "OTA_CMD_"] }
+        ]);
     }
     create(value?: PartialMessage<OtaReq>): OtaReq {
         const message = globalThis.Object.create((this.messagePrototype!));
+        message.type = { oneofKind: undefined };
         if (value !== undefined)
             reflectionMergePartial<OtaReq>(this, message, value);
         return message;
@@ -407,6 +427,12 @@ class OtaReq$Type extends MessageType<OtaReq> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
+                case /* Ciot.OtaCmd cmd */ 1:
+                    message.type = {
+                        oneofKind: "cmd",
+                        cmd: reader.int32()
+                    };
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -419,6 +445,9 @@ class OtaReq$Type extends MessageType<OtaReq> {
         return message;
     }
     internalBinaryWrite(message: OtaReq, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* Ciot.OtaCmd cmd = 1; */
+        if (message.type.oneofKind === "cmd")
+            writer.tag(1, WireType.Varint).int32(message.type.cmd);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
