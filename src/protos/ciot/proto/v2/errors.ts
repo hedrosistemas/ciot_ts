@@ -332,6 +332,60 @@ export enum Err {
      */
     NULL_EVENT_HANDLER = 51,
     /**
+     * BLE module error
+     *
+     * @generated from protobuf enum value: ERR_PROV_REQ_BLE = 2000;
+     */
+    PROV_REQ_BLE = 2000,
+    /**
+     * NTP sync error
+     *
+     * @generated from protobuf enum value: ERR_PROV_REQ_NTP = 2002;
+     */
+    PROV_REQ_NTP = 2002,
+    /**
+     * MQTT connection error
+     *
+     * @generated from protobuf enum value: ERR_PROV_REQ_MQTT = 2003;
+     */
+    PROV_REQ_MQTT = 2003,
+    /**
+     * HG TCP Prov manager is busy
+     *
+     * @generated from protobuf enum value: ERR_PROV_REQ_BUSY = 2004;
+     */
+    PROV_REQ_BUSY = 2004,
+    /**
+     * Invalid BLE configuration
+     *
+     * @generated from protobuf enum value: ERR_PROV_REQ_INVALID_BLE = 2005;
+     */
+    PROV_REQ_INVALID_BLE = 2005,
+    /**
+     * Invalid NTP configuration
+     *
+     * @generated from protobuf enum value: ERR_PROV_REQ_INVALID_NTP = 2006;
+     */
+    PROV_REQ_INVALID_NTP = 2006,
+    /**
+     * Invalid MQTT configuration
+     *
+     * @generated from protobuf enum value: ERR_PROV_REQ_INVALID_MQTT = 2007;
+     */
+    PROV_REQ_INVALID_MQTT = 2007,
+    /**
+     * Invalid Organization ID
+     *
+     * @generated from protobuf enum value: ERR_PROV_REQ_INVALID_ORG_ID = 2008;
+     */
+    PROV_REQ_INVALID_ORG_ID = 2008,
+    /**
+     * Invalid MQTT Network
+     *
+     * @generated from protobuf enum value: ERR_PROV_REQ_INVALID_MQTT_NETWORK = 2009;
+     */
+    PROV_REQ_INVALID_MQTT_NETWORK = 2009,
+    /**
      * Base error code for OTA errors
      *
      * @generated from protobuf enum value: ERR_OTA_BASE = 5376;
