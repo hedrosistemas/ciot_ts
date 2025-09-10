@@ -1,7 +1,5 @@
-CIOT_PATH := $(subst \,/,$(CIOT_PATH))
-
-PB_CIOT_PATH := $(CIOT_PATH)/ciot_protos
-PB_HDR_PATH := $(realpath ../../protos/gateway)
+PB_CIOT_PATH := $(realpath ../../protos)
+PB_HDR_PATH := $(realpath ../../protos)
 PB_OUT := src/protos
 
 gen-ciot:
