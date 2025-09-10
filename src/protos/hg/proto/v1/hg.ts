@@ -13,6 +13,7 @@ import { UnknownFieldHandler } from "@protobuf-ts/runtime";
 import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
+import { TcpProvStatus } from "./hg_tcp";
 import { BridgeReq } from "./hg_bridge";
 import { TcpHealth } from "./hg_tcp";
 import { Ack } from "../../../pcm/proto/v1/pcm";
@@ -30,6 +31,12 @@ export interface Data {
      * @generated from protobuf oneof: type
      */
     type: {
+        oneofKind: "getData";
+        /**
+         * @generated from protobuf field: Hg.DataType get_data = 1
+         */
+        getData: DataType; // Data type to get
+    } | {
         oneofKind: "cmd";
         /**
          * @generated from protobuf field: Hg.CmdType cmd = 2
@@ -78,6 +85,12 @@ export interface Data {
          */
         bridgeReq: BridgeReq; // Message containing HG Bridge request
     } | {
+        oneofKind: "tcpProvStatus";
+        /**
+         * @generated from protobuf field: Hg.TcpProvStatus tcp_prov_status = 11
+         */
+        tcpProvStatus: TcpProvStatus; // Message containing HG TCP module provisioning status
+    } | {
         oneofKind: "dfuType";
         /**
          * @generated from protobuf field: Hg.DfuType dfu_type = 99
@@ -86,6 +99,35 @@ export interface Data {
     } | {
         oneofKind: undefined;
     };
+}
+/**
+ * @generated from protobuf enum Hg.DataType
+ */
+export enum DataType {
+    /**
+     * Unknown data type
+     *
+     * @generated from protobuf enum value: DATA_TYPE_UNKNOWN = 0;
+     */
+    UNKNOWN = 0,
+    /**
+     * Health data
+     *
+     * @generated from protobuf enum value: DATA_TYPE_HEALTH = 1;
+     */
+    HEALTH = 1,
+    /**
+     * Provisioning status data
+     *
+     * @generated from protobuf enum value: DATA_TYPE_PROV_STATUS = 2;
+     */
+    PROV_STATUS = 2,
+    /**
+     * DFU type data
+     *
+     * @generated from protobuf enum value: DATA_TYPE_DFU_TYPE = 99;
+     */
+    DFU_TYPE = 99
 }
 /**
  * HG Cmd Types
@@ -112,11 +154,11 @@ export enum CmdType {
      */
     RESET = 2,
     /**
-     * DFU cmd
+     * Start DFU cmd
      *
-     * @generated from protobuf enum value: CMD_TYPE_DFU = 3;
+     * @generated from protobuf enum value: CMD_TYPE_START_DFU = 3;
      */
-    DFU = 3,
+    START_DFU = 3,
     /**
      * Toggle access point cmd
      *
@@ -124,11 +166,11 @@ export enum CmdType {
      */
     TOGGLE_AP = 4,
     /**
-     * Get device identity data
+     * Init DFU boot cmd
      *
-     * @generated from protobuf enum value: CMD_TYPE_GET_IDENTITY = 5;
+     * @generated from protobuf enum value: CMD_TYPE_INIT_DFU_BOOT = 5;
      */
-    GET_IDENTITY = 5,
+    INIT_DFU_BOOT = 5,
     /**
      * Get health data
      *
@@ -142,12 +184,8 @@ export enum CmdType {
      */
     SET_DFU_TYPE = 99,
     /**
-     * Get DFU type cmd
+     * CMD_TYPE_GET_DFU_TYPE = 100;                // Get DFU type cmd
      *
-     * @generated from protobuf enum value: CMD_TYPE_GET_DFU_TYPE = 100;
-     */
-    GET_DFU_TYPE = 100,
-    /**
      * Delete migrated settings cmd
      *
      * @generated from protobuf enum value: CMD_TYPE_DELETE_MIGRATED_SETTINGS = 101;
@@ -171,12 +209,19 @@ export enum DfuType {
      *
      * @generated from protobuf enum value: DFU_TYPE_NEW = 1;
      */
-    NEW = 1
+    NEW = 1,
+    /**
+     * NEW TO OLD DFU used to downgrade devices with 4.X.X firmware versions
+     *
+     * @generated from protobuf enum value: DFU_TYPE_NEW_TO_OLD = 2;
+     */
+    NEW_TO_OLD = 2
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class Data$Type extends MessageType<Data> {
     constructor() {
         super("Hg.Data", [
+            { no: 1, name: "get_data", kind: "enum", oneof: "type", T: () => ["Hg.DataType", DataType, "DATA_TYPE_"] },
             { no: 2, name: "cmd", kind: "enum", oneof: "type", T: () => ["Hg.CmdType", CmdType, "CMD_TYPE_"] },
             { no: 3, name: "ble_health", kind: "message", oneof: "type", T: () => BleHealth },
             { no: 4, name: "ble_adv", kind: "message", oneof: "type", T: () => BleAdv },
@@ -185,6 +230,7 @@ class Data$Type extends MessageType<Data> {
             { no: 7, name: "pcm_ack", kind: "message", oneof: "type", T: () => Ack },
             { no: 9, name: "tcp_health", kind: "message", oneof: "type", T: () => TcpHealth },
             { no: 10, name: "bridge_req", kind: "message", oneof: "type", T: () => BridgeReq },
+            { no: 11, name: "tcp_prov_status", kind: "message", oneof: "type", T: () => TcpProvStatus },
             { no: 99, name: "dfu_type", kind: "enum", oneof: "type", T: () => ["Hg.DfuType", DfuType, "DFU_TYPE_"] }
         ]);
     }
@@ -200,6 +246,12 @@ class Data$Type extends MessageType<Data> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
+                case /* Hg.DataType get_data */ 1:
+                    message.type = {
+                        oneofKind: "getData",
+                        getData: reader.int32()
+                    };
+                    break;
                 case /* Hg.CmdType cmd */ 2:
                     message.type = {
                         oneofKind: "cmd",
@@ -248,6 +300,12 @@ class Data$Type extends MessageType<Data> {
                         bridgeReq: BridgeReq.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).bridgeReq)
                     };
                     break;
+                case /* Hg.TcpProvStatus tcp_prov_status */ 11:
+                    message.type = {
+                        oneofKind: "tcpProvStatus",
+                        tcpProvStatus: TcpProvStatus.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).tcpProvStatus)
+                    };
+                    break;
                 case /* Hg.DfuType dfu_type */ 99:
                     message.type = {
                         oneofKind: "dfuType",
@@ -266,6 +324,9 @@ class Data$Type extends MessageType<Data> {
         return message;
     }
     internalBinaryWrite(message: Data, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* Hg.DataType get_data = 1; */
+        if (message.type.oneofKind === "getData")
+            writer.tag(1, WireType.Varint).int32(message.type.getData);
         /* Hg.CmdType cmd = 2; */
         if (message.type.oneofKind === "cmd")
             writer.tag(2, WireType.Varint).int32(message.type.cmd);
@@ -290,6 +351,9 @@ class Data$Type extends MessageType<Data> {
         /* Hg.BridgeReq bridge_req = 10; */
         if (message.type.oneofKind === "bridgeReq")
             BridgeReq.internalBinaryWrite(message.type.bridgeReq, writer.tag(10, WireType.LengthDelimited).fork(), options).join();
+        /* Hg.TcpProvStatus tcp_prov_status = 11; */
+        if (message.type.oneofKind === "tcpProvStatus")
+            TcpProvStatus.internalBinaryWrite(message.type.tcpProvStatus, writer.tag(11, WireType.LengthDelimited).fork(), options).join();
         /* Hg.DfuType dfu_type = 99; */
         if (message.type.oneofKind === "dfuType")
             writer.tag(99, WireType.Varint).int32(message.type.dfuType);
