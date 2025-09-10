@@ -23,6 +23,26 @@ import { TcpInfo } from "../../../ciot/proto/v2/tcp";
 import { MqttClientCfg } from "../../../ciot/proto/v2/mqtt_client";
 import { NtpCfg } from "../../../ciot/proto/v2/ntp";
 import { BleCfg } from "../../../ciot/proto/v2/ble";
+import { Err } from "../../../ciot/proto/v2/errors";
+/**
+ * HG TCP Module provisioning status message
+ *
+ * @generated from protobuf message Hg.TcpProvStatus
+ */
+export interface TcpProvStatus {
+    /**
+     * @generated from protobuf field: Hg.TcpProvState state = 1
+     */
+    state: TcpProvState; // Provisioning state
+    /**
+     * @generated from protobuf field: Ciot.Err error = 2
+     */
+    error: Err; // Provisioning error code
+    /**
+     * @generated from protobuf field: int32 tries = 3
+     */
+    tries: number; // Provisioning tries count
+}
 /**
  * HG TCP Module available for provisioning message
  *
@@ -34,37 +54,29 @@ export interface TcpProvAvailable {
      */
     t: bigint; // Message timestamp
     /**
-     * @generated from protobuf field: Hg.TcpProvState state = 2
-     */
-    state: TcpProvState; // HG prov state
-    /**
-     * @generated from protobuf field: bytes app_ver = 3
+     * @generated from protobuf field: bytes app_ver = 2
      */
     appVer: Uint8Array; // HG application version
     /**
-     * @generated from protobuf field: string hw_ver = 4
+     * @generated from protobuf field: string hw_ver = 3
      */
     hwVer: string; // HG hardware version
     /**
-     * @generated from protobuf field: string hw_type = 5
+     * @generated from protobuf field: string hw_type = 4
      */
     hwType: string; // HG hardware type
     /**
-     * @generated from protobuf field: Hg.HardwareMacs hw_macs = 6
+     * @generated from protobuf field: Hg.HardwareMacs hw_macs = 5
      */
     hwMacs?: HardwareMacs; // HG Hardware mac addresses
     /**
-     * @generated from protobuf field: int32 tries = 7
-     */
-    tries: number; // HG prov tries count
-    /**
-     * @generated from protobuf field: Hg.TcpProvError err = 8
-     */
-    err: TcpProvError; // HG prov error code
-    /**
-     * @generated from protobuf field: uint32 sn = 9
+     * @generated from protobuf field: uint32 sn = 6
      */
     sn: number; // HG device serial number
+    /**
+     * @generated from protobuf field: Hg.TcpProvStatus status = 7
+     */
+    status?: TcpProvStatus; // Provisioning status
 }
 /**
  * HG TCP Module provisioning request
@@ -115,6 +127,10 @@ export interface TcpPersistentData {
      * @generated from protobuf field: string org_id = 2
      */
     orgId: string; // Device organization ID
+    /**
+     * @generated from protobuf field: bool migrated = 3
+     */
+    migrated: boolean; // Indicates if data has been migrated from an previous version
 }
 /**
  * @generated from protobuf message Hg.HardwareMacs
@@ -366,73 +382,6 @@ export enum TcpProvState {
     COMPLETED = 2
 }
 /**
- * HG TCP Module prov error codes
- *
- * @generated from protobuf enum Hg.TcpProvError
- */
-export enum TcpProvError {
-    /**
-     * Prov OK
-     *
-     * @generated from protobuf enum value: TCP_PROV_ERROR_OK = 0;
-     */
-    OK = 0,
-    /**
-     * BLE module error
-     *
-     * @generated from protobuf enum value: TCP_PROV_ERROR_BLE = 1;
-     */
-    BLE = 1,
-    /**
-     * NTP sync error
-     *
-     * @generated from protobuf enum value: TCP_PROV_ERROR_NTP = 2;
-     */
-    NTP = 2,
-    /**
-     * MQTT connection error
-     *
-     * @generated from protobuf enum value: TCP_PROV_ERROR_MQTT = 3;
-     */
-    MQTT = 3,
-    /**
-     * HG TCP Prov manager is busy
-     *
-     * @generated from protobuf enum value: TCP_PROV_ERROR_BUSY = 4;
-     */
-    BUSY = 4,
-    /**
-     * Invalid BLE configuration
-     *
-     * @generated from protobuf enum value: TCP_PROV_ERROR_INVALID_BLE = 5;
-     */
-    INVALID_BLE = 5,
-    /**
-     * Invalid NTP configuration
-     *
-     * @generated from protobuf enum value: TCP_PROV_ERROR_INVALID_NTP = 6;
-     */
-    INVALID_NTP = 6,
-    /**
-     * Invalid MQTT configuration
-     *
-     * @generated from protobuf enum value: TCP_PROV_ERROR_INVALID_MQTT = 7;
-     */
-    INVALID_MQTT = 7,
-    /**
-     * Invalid Organization ID
-     *
-     * @generated from protobuf enum value: TCP_PROV_ERROR_INVALID_ORG_ID = 8;
-     */
-    INVALID_ORG_ID = 8,
-    /**
-     * Invalid MQTT Network
-     *
-     * @generated from protobuf enum value: TCP_PROV_ERROR_INVALID_MQTT_NETWORK = 9;
-     */
-    INVALID_MQTT_NETWORK = 9
-}
-/**
  * Enum representing different types of HG TCP Module reset
  *
  * @generated from protobuf enum Hg.TcpResetType
@@ -464,29 +413,87 @@ export enum TcpResetType {
     ALL = 3
 }
 // @generated message type with reflection information, may provide speed optimized methods
+class TcpProvStatus$Type extends MessageType<TcpProvStatus> {
+    constructor() {
+        super("Hg.TcpProvStatus", [
+            { no: 1, name: "state", kind: "enum", T: () => ["Hg.TcpProvState", TcpProvState, "TCP_PROV_STATE_"] },
+            { no: 2, name: "error", kind: "enum", T: () => ["Ciot.Err", Err, "ERR_"] },
+            { no: 3, name: "tries", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+        ]);
+    }
+    create(value?: PartialMessage<TcpProvStatus>): TcpProvStatus {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.state = 0;
+        message.error = 0;
+        message.tries = 0;
+        if (value !== undefined)
+            reflectionMergePartial<TcpProvStatus>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: TcpProvStatus): TcpProvStatus {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* Hg.TcpProvState state */ 1:
+                    message.state = reader.int32();
+                    break;
+                case /* Ciot.Err error */ 2:
+                    message.error = reader.int32();
+                    break;
+                case /* int32 tries */ 3:
+                    message.tries = reader.int32();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: TcpProvStatus, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* Hg.TcpProvState state = 1; */
+        if (message.state !== 0)
+            writer.tag(1, WireType.Varint).int32(message.state);
+        /* Ciot.Err error = 2; */
+        if (message.error !== 0)
+            writer.tag(2, WireType.Varint).int32(message.error);
+        /* int32 tries = 3; */
+        if (message.tries !== 0)
+            writer.tag(3, WireType.Varint).int32(message.tries);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message Hg.TcpProvStatus
+ */
+export const TcpProvStatus = new TcpProvStatus$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class TcpProvAvailable$Type extends MessageType<TcpProvAvailable> {
     constructor() {
         super("Hg.TcpProvAvailable", [
             { no: 1, name: "t", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 0 /*LongType.BIGINT*/ },
-            { no: 2, name: "state", kind: "enum", T: () => ["Hg.TcpProvState", TcpProvState, "TCP_PROV_STATE_"] },
-            { no: 3, name: "app_ver", kind: "scalar", T: 12 /*ScalarType.BYTES*/ },
-            { no: 4, name: "hw_ver", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "hw_type", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "hw_macs", kind: "message", T: () => HardwareMacs },
-            { no: 7, name: "tries", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
-            { no: 8, name: "err", kind: "enum", T: () => ["Hg.TcpProvError", TcpProvError, "TCP_PROV_ERROR_"] },
-            { no: 9, name: "sn", kind: "scalar", T: 13 /*ScalarType.UINT32*/ }
+            { no: 2, name: "app_ver", kind: "scalar", T: 12 /*ScalarType.BYTES*/ },
+            { no: 3, name: "hw_ver", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "hw_type", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "hw_macs", kind: "message", T: () => HardwareMacs },
+            { no: 6, name: "sn", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
+            { no: 7, name: "status", kind: "message", T: () => TcpProvStatus }
         ]);
     }
     create(value?: PartialMessage<TcpProvAvailable>): TcpProvAvailable {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.t = 0n;
-        message.state = 0;
         message.appVer = new Uint8Array(0);
         message.hwVer = "";
         message.hwType = "";
-        message.tries = 0;
-        message.err = 0;
         message.sn = 0;
         if (value !== undefined)
             reflectionMergePartial<TcpProvAvailable>(this, message, value);
@@ -500,29 +507,23 @@ class TcpProvAvailable$Type extends MessageType<TcpProvAvailable> {
                 case /* uint64 t */ 1:
                     message.t = reader.uint64().toBigInt();
                     break;
-                case /* Hg.TcpProvState state */ 2:
-                    message.state = reader.int32();
-                    break;
-                case /* bytes app_ver */ 3:
+                case /* bytes app_ver */ 2:
                     message.appVer = reader.bytes();
                     break;
-                case /* string hw_ver */ 4:
+                case /* string hw_ver */ 3:
                     message.hwVer = reader.string();
                     break;
-                case /* string hw_type */ 5:
+                case /* string hw_type */ 4:
                     message.hwType = reader.string();
                     break;
-                case /* Hg.HardwareMacs hw_macs */ 6:
+                case /* Hg.HardwareMacs hw_macs */ 5:
                     message.hwMacs = HardwareMacs.internalBinaryRead(reader, reader.uint32(), options, message.hwMacs);
                     break;
-                case /* int32 tries */ 7:
-                    message.tries = reader.int32();
-                    break;
-                case /* Hg.TcpProvError err */ 8:
-                    message.err = reader.int32();
-                    break;
-                case /* uint32 sn */ 9:
+                case /* uint32 sn */ 6:
                     message.sn = reader.uint32();
+                    break;
+                case /* Hg.TcpProvStatus status */ 7:
+                    message.status = TcpProvStatus.internalBinaryRead(reader, reader.uint32(), options, message.status);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -539,30 +540,24 @@ class TcpProvAvailable$Type extends MessageType<TcpProvAvailable> {
         /* uint64 t = 1; */
         if (message.t !== 0n)
             writer.tag(1, WireType.Varint).uint64(message.t);
-        /* Hg.TcpProvState state = 2; */
-        if (message.state !== 0)
-            writer.tag(2, WireType.Varint).int32(message.state);
-        /* bytes app_ver = 3; */
+        /* bytes app_ver = 2; */
         if (message.appVer.length)
-            writer.tag(3, WireType.LengthDelimited).bytes(message.appVer);
-        /* string hw_ver = 4; */
+            writer.tag(2, WireType.LengthDelimited).bytes(message.appVer);
+        /* string hw_ver = 3; */
         if (message.hwVer !== "")
-            writer.tag(4, WireType.LengthDelimited).string(message.hwVer);
-        /* string hw_type = 5; */
+            writer.tag(3, WireType.LengthDelimited).string(message.hwVer);
+        /* string hw_type = 4; */
         if (message.hwType !== "")
-            writer.tag(5, WireType.LengthDelimited).string(message.hwType);
-        /* Hg.HardwareMacs hw_macs = 6; */
+            writer.tag(4, WireType.LengthDelimited).string(message.hwType);
+        /* Hg.HardwareMacs hw_macs = 5; */
         if (message.hwMacs)
-            HardwareMacs.internalBinaryWrite(message.hwMacs, writer.tag(6, WireType.LengthDelimited).fork(), options).join();
-        /* int32 tries = 7; */
-        if (message.tries !== 0)
-            writer.tag(7, WireType.Varint).int32(message.tries);
-        /* Hg.TcpProvError err = 8; */
-        if (message.err !== 0)
-            writer.tag(8, WireType.Varint).int32(message.err);
-        /* uint32 sn = 9; */
+            HardwareMacs.internalBinaryWrite(message.hwMacs, writer.tag(5, WireType.LengthDelimited).fork(), options).join();
+        /* uint32 sn = 6; */
         if (message.sn !== 0)
-            writer.tag(9, WireType.Varint).uint32(message.sn);
+            writer.tag(6, WireType.Varint).uint32(message.sn);
+        /* Hg.TcpProvStatus status = 7; */
+        if (message.status)
+            TcpProvStatus.internalBinaryWrite(message.status, writer.tag(7, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -670,13 +665,15 @@ class TcpPersistentData$Type extends MessageType<TcpPersistentData> {
     constructor() {
         super("Hg.TcpPersistentData", [
             { no: 1, name: "mqtt_network", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "org_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 2, name: "org_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "migrated", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
     create(value?: PartialMessage<TcpPersistentData>): TcpPersistentData {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.mqttNetwork = "";
         message.orgId = "";
+        message.migrated = false;
         if (value !== undefined)
             reflectionMergePartial<TcpPersistentData>(this, message, value);
         return message;
@@ -691,6 +688,9 @@ class TcpPersistentData$Type extends MessageType<TcpPersistentData> {
                     break;
                 case /* string org_id */ 2:
                     message.orgId = reader.string();
+                    break;
+                case /* bool migrated */ 3:
+                    message.migrated = reader.bool();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -710,6 +710,9 @@ class TcpPersistentData$Type extends MessageType<TcpPersistentData> {
         /* string org_id = 2; */
         if (message.orgId !== "")
             writer.tag(2, WireType.LengthDelimited).string(message.orgId);
+        /* bool migrated = 3; */
+        if (message.migrated !== false)
+            writer.tag(3, WireType.Varint).bool(message.migrated);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
