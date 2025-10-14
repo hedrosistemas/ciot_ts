@@ -13,8 +13,6 @@
   },
   "scripts": {
     "build": "tsc",
-    "clean": "rimraf dist",
-    "prebuild": "npm run clean",
     "generate:proto": "protoc --plugin=protoc-gen-ts=node_modules/.bin/protoc-gen-ts --ts_out=app/protos --proto_path=./ciot_protos ./ciot_protos/ciot/proto/v2/*.proto",
     "prepublishOnly": "npm run build"
   },
