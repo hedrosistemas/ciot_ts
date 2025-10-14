@@ -64,6 +64,9 @@ jobs:
       - name: Create package
         run: npm pack
       
+      - name: Create dist archive
+        run: tar -czf ciot-ts-dist-${{ steps.version.outputs.raw_version }}.tar.gz -C dist .
+      
       - name: Generate changelog
         run: |
           echo "# Release Notes for ${{ steps.version.outputs.version }}" > RELEASE_NOTES.md
@@ -102,6 +105,14 @@ jobs:
           prerelease: ${{ contains(steps.version.outputs.version, '-') }}
           files: |
             ciot-ts-*.tgz
-            dist/**
+            ciot-ts-dist-*.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Release Summary
+        run: |
+          echo "🎉 Release ${{ steps.version.outputs.version }} created successfully!"
+          echo "📦 Files uploaded:"
+          ls -la ciot-ts-*.tgz ciot-ts-dist-*.tar.gz
+          echo ""
+          echo "🔗 Release URL: https://github.com/${{ github.repository }}/releases/tag/${{ steps.version.outputs.version }}"
