@@ -145,11 +145,17 @@ export enum State {
      */
     BUSY = 3,
     /**
+     * CIOT core has an event pending.
+     *
+     * @generated from protobuf enum value: STATE_PENDING_EVENT = 4;
+     */
+    PENDING_EVENT = 4,
+    /**
      * CIOT core encountered an error.
      *
-     * @generated from protobuf enum value: STATE_ERROR = 4;
+     * @generated from protobuf enum value: STATE_ERROR = 5;
      */
-    ERROR = 4
+    ERROR = 5
 }
 /**
  * Enum representing different serialization types for CIOT.
