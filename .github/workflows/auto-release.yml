@@ -56,12 +56,7 @@ jobs:
         run: npm install
       
       - name: Build project
-        run: |
-          # Limpar diretório dist se existir
-          rm -rf dist
-          
-          # Executar build script
-          npm run build
+        run: npm run build
       
       - name: Run tests
         run: npm test --if-present || echo "No test script found"
