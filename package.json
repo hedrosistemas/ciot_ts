@@ -17,6 +17,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
+    "@protobuf-ts/runtime": "^2.11.1",
     "fp-ts": "^2.16.10"
   }
 }
