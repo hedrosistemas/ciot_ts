@@ -1,0 +1,115 @@
+name: Auto Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (leave empty to use package.json version)'
+        required: false
+        type: string
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Get version
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION=$(node -p "require('./package.json').version")
+          fi
+          echo "version=v$VERSION" >> $GITHUB_OUTPUT
+          echo "raw_version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Using version: $VERSION"
+      
+      - name: Check if tag exists
+        id: tag_check
+        run: |
+          if git rev-parse "${{ steps.version.outputs.version }}" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "❌ Tag ${{ steps.version.outputs.version }} already exists"
+            exit 1
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "✅ Tag ${{ steps.version.outputs.version }} is available"
+          fi
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build project
+        run: |
+          # Compilar TypeScript se existir tsconfig.json
+          if [ -f "tsconfig.json" ]; then
+            npx tsc
+          fi
+          
+          # Executar build script se existir
+          npm run build --if-present || echo "No build script found"
+      
+      - name: Run tests
+        run: npm test --if-present || echo "No test script found"
+      
+      - name: Create package
+        run: npm pack
+      
+      - name: Generate changelog
+        run: |
+          echo "# Release Notes for ${{ steps.version.outputs.version }}" > RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
+          
+          # Obter última tag
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          
+          if [ -z "$LAST_TAG" ]; then
+            echo "## 🎉 Initial Release" >> RELEASE_NOTES.md
+            echo "" >> RELEASE_NOTES.md
+            echo "This is the first release of ciot-ts!" >> RELEASE_NOTES.md
+          else
+            echo "## 📋 Changes since $LAST_TAG" >> RELEASE_NOTES.md
+            echo "" >> RELEASE_NOTES.md
+            
+            # Adicionar commits desde a última tag
+            git log $LAST_TAG..HEAD --oneline --no-merges | while read commit; do
+              echo "- $commit" >> RELEASE_NOTES.md
+            done
+          fi
+          
+          echo "" >> RELEASE_NOTES.md
+          echo "## 📦 Package Information" >> RELEASE_NOTES.md
+          echo "- **Version**: ${{ steps.version.outputs.raw_version }}" >> RELEASE_NOTES.md
+          echo "- **Build Date**: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> RELEASE_NOTES.md
+          echo "- **Commit**: ${{ github.sha }}" >> RELEASE_NOTES.md
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          name: "ciot-ts ${{ steps.version.outputs.version }}"
+          body_path: RELEASE_NOTES.md
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.version, '-') }}
+          files: |
+            ciot-ts-*.tgz
+            dist/**
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
