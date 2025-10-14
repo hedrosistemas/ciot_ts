@@ -78,10 +78,11 @@ export class HttpClient extends IfaceBase {
         try {
             const response = await fetch(this._cfg.url, {
                 method: this.httpClientMethodToString(this._cfg.method),
-                body: data,
+                body: data.slice(),
                 signal: AbortSignal.timeout(this._cfg.timeout),
             });
-            var body = await response.bytes();
+            const arrayBuffer = await response.arrayBuffer();
+            const body = new Uint8Array(arrayBuffer);
             if (response.ok) {
                 return Promise.resolve(right(body));
             } else {
