@@ -27,7 +27,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'npm'
       
       - name: Get version
         id: version
@@ -54,17 +53,15 @@ jobs:
           fi
       
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       
       - name: Build project
         run: |
-          # Compilar TypeScript se existir tsconfig.json
-          if [ -f "tsconfig.json" ]; then
-            npx tsc
-          fi
+          # Limpar diretório dist se existir
+          rm -rf dist
           
-          # Executar build script se existir
-          npm run build --if-present || echo "No build script found"
+          # Executar build script
+          npm run build
       
       - name: Run tests
         run: npm test --if-present || echo "No test script found"
