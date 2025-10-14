@@ -1,6 +1,6 @@
 {
   "name": "ciot-ts",
-  "version": "0.3.0-hdr-1",
+  "version": "0.4.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "devDependencies": {
@@ -12,9 +12,12 @@
     "vite-plugin-singlefile": "^2.2.0"
   },
   "scripts": {
-    "generate:proto": "protoc --plugin=protoc-gen-ts=node_modules/.bin/protoc-gen-ts --ts_out=app/protos --proto_path=./ciot_protos ./ciot_protos/ciot/proto/v2/*.proto"
+    "build": "tsc",
+    "generate:proto": "protoc --plugin=protoc-gen-ts=node_modules/.bin/protoc-gen-ts --ts_out=app/protos --proto_path=./ciot_protos ./ciot_protos/ciot/proto/v2/*.proto",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
+    "@protobuf-ts/runtime": "^2.11.1",
     "fp-ts": "^2.16.10"
   }
 }

@@ -11,6 +11,7 @@ import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
 import { MbusFunctionReq } from "./mbus";
+import { UartCfg } from "./uart";
 /**
  * Message used to stop Modbus server interface
  *
@@ -28,6 +29,10 @@ export interface MbusServerRtuCfg {
      * @generated from protobuf field: uint32 server_id = 1
      */
     serverId: number; // Server ID
+    /**
+     * @generated from protobuf field: Ciot.UartCfg uart = 2
+     */
+    uart?: UartCfg; // UART settings
 }
 /**
  * Message representing Modbus TCP configuration
@@ -203,7 +208,8 @@ export const MbusServerStop = new MbusServerStop$Type();
 class MbusServerRtuCfg$Type extends MessageType<MbusServerRtuCfg> {
     constructor() {
         super("Ciot.MbusServerRtuCfg", [
-            { no: 1, name: "server_id", kind: "scalar", T: 13 /*ScalarType.UINT32*/ }
+            { no: 1, name: "server_id", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
+            { no: 2, name: "uart", kind: "message", T: () => UartCfg }
         ]);
     }
     create(value?: PartialMessage<MbusServerRtuCfg>): MbusServerRtuCfg {
@@ -221,6 +227,9 @@ class MbusServerRtuCfg$Type extends MessageType<MbusServerRtuCfg> {
                 case /* uint32 server_id */ 1:
                     message.serverId = reader.uint32();
                     break;
+                case /* Ciot.UartCfg uart */ 2:
+                    message.uart = UartCfg.internalBinaryRead(reader, reader.uint32(), options, message.uart);
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -236,6 +245,9 @@ class MbusServerRtuCfg$Type extends MessageType<MbusServerRtuCfg> {
         /* uint32 server_id = 1; */
         if (message.serverId !== 0)
             writer.tag(1, WireType.Varint).uint32(message.serverId);
+        /* Ciot.UartCfg uart = 2; */
+        if (message.uart)
+            UartCfg.internalBinaryWrite(message.uart, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
