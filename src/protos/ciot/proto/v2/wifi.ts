@@ -147,36 +147,23 @@ export interface WifiReq {
          */
         scan: WifiReqScan; // Start wifi scanner
     } | {
+        oneofKind: "scanResult";
+        /**
+         * @generated from protobuf field: Ciot.WifiReqScanResult scan_result = 2
+         */
+        scanResult: WifiReqScanResult; // Wifi scanner result
+    } | {
         oneofKind: "getAp";
         /**
-         * @generated from protobuf field: Ciot.WifiReqGetAp get_ap = 2
+         * @generated from protobuf field: Ciot.WifiReqGetAp get_ap = 3
          */
         getAp: WifiReqGetAp; // Get acess point information from wifi scanner queue
     } | {
-        oneofKind: undefined;
-    };
-}
-/**
- * Message representing a Wi-Fi response.
- *
- * @generated from protobuf message Ciot.WifiResp
- */
-export interface WifiResp {
-    /**
-     * @generated from protobuf oneof: type
-     */
-    type: {
-        oneofKind: "scan";
+        oneofKind: "apInfo";
         /**
-         * @generated from protobuf field: Ciot.WifiReqScanResult scan = 1
+         * @generated from protobuf field: Ciot.WifiApInfo ap_info = 4
          */
-        scan: WifiReqScanResult; // Wifi scanner result
-    } | {
-        oneofKind: "getAp";
-        /**
-         * @generated from protobuf field: Ciot.WifiApInfo get_ap = 2
-         */
-        getAp: WifiApInfo; // Get acess point result
+        apInfo: WifiApInfo; // Get acess point result
     } | {
         oneofKind: undefined;
     };
@@ -215,15 +202,9 @@ export interface WifiData {
          */
         request: WifiReq; // Wi-Fi request data.
     } | {
-        oneofKind: "response";
-        /**
-         * @generated from protobuf field: Ciot.WifiResp response = 5
-         */
-        response: WifiResp; // Wi-Fi response data.
-    } | {
         oneofKind: "info";
         /**
-         * @generated from protobuf field: Ciot.WifiInfo info = 6
+         * @generated from protobuf field: Ciot.WifiInfo info = 5
          */
         info: WifiInfo; // TCP information.
     } | {
@@ -270,9 +251,9 @@ export enum WifiScanState {
     /**
      * Wi-Fi scan completed successfully.
      *
-     * @generated from protobuf enum value: WIFI_SCAN_STATE_SCANNED = 2;
+     * @generated from protobuf enum value: WIFI_SCAN_STATE_DONE = 2;
      */
-    SCANNED = 2,
+    DONE = 2,
     /**
      * Error occurred during Wi-Fi scan.
      *
@@ -719,7 +700,9 @@ class WifiReq$Type extends MessageType<WifiReq> {
     constructor() {
         super("Ciot.WifiReq", [
             { no: 1, name: "scan", kind: "message", oneof: "type", T: () => WifiReqScan },
-            { no: 2, name: "get_ap", kind: "message", oneof: "type", T: () => WifiReqGetAp }
+            { no: 2, name: "scan_result", kind: "message", oneof: "type", T: () => WifiReqScanResult },
+            { no: 3, name: "get_ap", kind: "message", oneof: "type", T: () => WifiReqGetAp },
+            { no: 4, name: "ap_info", kind: "message", oneof: "type", T: () => WifiApInfo }
         ]);
     }
     create(value?: PartialMessage<WifiReq>): WifiReq {
@@ -740,10 +723,22 @@ class WifiReq$Type extends MessageType<WifiReq> {
                         scan: WifiReqScan.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).scan)
                     };
                     break;
-                case /* Ciot.WifiReqGetAp get_ap */ 2:
+                case /* Ciot.WifiReqScanResult scan_result */ 2:
+                    message.type = {
+                        oneofKind: "scanResult",
+                        scanResult: WifiReqScanResult.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).scanResult)
+                    };
+                    break;
+                case /* Ciot.WifiReqGetAp get_ap */ 3:
                     message.type = {
                         oneofKind: "getAp",
                         getAp: WifiReqGetAp.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).getAp)
+                    };
+                    break;
+                case /* Ciot.WifiApInfo ap_info */ 4:
+                    message.type = {
+                        oneofKind: "apInfo",
+                        apInfo: WifiApInfo.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).apInfo)
                     };
                     break;
                 default:
@@ -761,9 +756,15 @@ class WifiReq$Type extends MessageType<WifiReq> {
         /* Ciot.WifiReqScan scan = 1; */
         if (message.type.oneofKind === "scan")
             WifiReqScan.internalBinaryWrite(message.type.scan, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.WifiReqGetAp get_ap = 2; */
+        /* Ciot.WifiReqScanResult scan_result = 2; */
+        if (message.type.oneofKind === "scanResult")
+            WifiReqScanResult.internalBinaryWrite(message.type.scanResult, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.WifiReqGetAp get_ap = 3; */
         if (message.type.oneofKind === "getAp")
-            WifiReqGetAp.internalBinaryWrite(message.type.getAp, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+            WifiReqGetAp.internalBinaryWrite(message.type.getAp, writer.tag(3, WireType.LengthDelimited).fork(), options).join();
+        /* Ciot.WifiApInfo ap_info = 4; */
+        if (message.type.oneofKind === "apInfo")
+            WifiApInfo.internalBinaryWrite(message.type.apInfo, writer.tag(4, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -775,66 +776,6 @@ class WifiReq$Type extends MessageType<WifiReq> {
  */
 export const WifiReq = new WifiReq$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class WifiResp$Type extends MessageType<WifiResp> {
-    constructor() {
-        super("Ciot.WifiResp", [
-            { no: 1, name: "scan", kind: "message", oneof: "type", T: () => WifiReqScanResult },
-            { no: 2, name: "get_ap", kind: "message", oneof: "type", T: () => WifiApInfo }
-        ]);
-    }
-    create(value?: PartialMessage<WifiResp>): WifiResp {
-        const message = globalThis.Object.create((this.messagePrototype!));
-        message.type = { oneofKind: undefined };
-        if (value !== undefined)
-            reflectionMergePartial<WifiResp>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: WifiResp): WifiResp {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* Ciot.WifiReqScanResult scan */ 1:
-                    message.type = {
-                        oneofKind: "scan",
-                        scan: WifiReqScanResult.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).scan)
-                    };
-                    break;
-                case /* Ciot.WifiApInfo get_ap */ 2:
-                    message.type = {
-                        oneofKind: "getAp",
-                        getAp: WifiApInfo.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).getAp)
-                    };
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: WifiResp, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* Ciot.WifiReqScanResult scan = 1; */
-        if (message.type.oneofKind === "scan")
-            WifiReqScanResult.internalBinaryWrite(message.type.scan, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.WifiApInfo get_ap = 2; */
-        if (message.type.oneofKind === "getAp")
-            WifiApInfo.internalBinaryWrite(message.type.getAp, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message Ciot.WifiResp
- */
-export const WifiResp = new WifiResp$Type();
-// @generated message type with reflection information, may provide speed optimized methods
 class WifiData$Type extends MessageType<WifiData> {
     constructor() {
         super("Ciot.WifiData", [
@@ -842,8 +783,7 @@ class WifiData$Type extends MessageType<WifiData> {
             { no: 2, name: "config", kind: "message", oneof: "type", T: () => WifiCfg },
             { no: 3, name: "status", kind: "message", oneof: "type", T: () => WifiStatus },
             { no: 4, name: "request", kind: "message", oneof: "type", T: () => WifiReq },
-            { no: 5, name: "response", kind: "message", oneof: "type", T: () => WifiResp },
-            { no: 6, name: "info", kind: "message", oneof: "type", T: () => WifiInfo }
+            { no: 5, name: "info", kind: "message", oneof: "type", T: () => WifiInfo }
         ]);
     }
     create(value?: PartialMessage<WifiData>): WifiData {
@@ -882,13 +822,7 @@ class WifiData$Type extends MessageType<WifiData> {
                         request: WifiReq.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).request)
                     };
                     break;
-                case /* Ciot.WifiResp response */ 5:
-                    message.type = {
-                        oneofKind: "response",
-                        response: WifiResp.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).response)
-                    };
-                    break;
-                case /* Ciot.WifiInfo info */ 6:
+                case /* Ciot.WifiInfo info */ 5:
                     message.type = {
                         oneofKind: "info",
                         info: WifiInfo.internalBinaryRead(reader, reader.uint32(), options, (message.type as any).info)
@@ -918,12 +852,9 @@ class WifiData$Type extends MessageType<WifiData> {
         /* Ciot.WifiReq request = 4; */
         if (message.type.oneofKind === "request")
             WifiReq.internalBinaryWrite(message.type.request, writer.tag(4, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.WifiResp response = 5; */
-        if (message.type.oneofKind === "response")
-            WifiResp.internalBinaryWrite(message.type.response, writer.tag(5, WireType.LengthDelimited).fork(), options).join();
-        /* Ciot.WifiInfo info = 6; */
+        /* Ciot.WifiInfo info = 5; */
         if (message.type.oneofKind === "info")
-            WifiInfo.internalBinaryWrite(message.type.info, writer.tag(6, WireType.LengthDelimited).fork(), options).join();
+            WifiInfo.internalBinaryWrite(message.type.info, writer.tag(5, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
