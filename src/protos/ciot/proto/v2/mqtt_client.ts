@@ -57,6 +57,27 @@ export interface MqttClientTopicsCfg {
     sub: string; // Topic used to receive data.
 }
 /**
+ * @generated from protobuf message Ciot.MqttClientLastWill
+ */
+export interface MqttClientLastWill {
+    /**
+     * @generated from protobuf field: string topic = 1
+     */
+    topic: string; // Topic for the last will message.
+    /**
+     * @generated from protobuf field: bytes payload = 2
+     */
+    payload: Uint8Array; // Payload for the last will message.
+    /**
+     * @generated from protobuf field: uint32 qos = 3
+     */
+    qos: number; // Quality of Service level for the last will message.
+    /**
+     * @generated from protobuf field: bool retain = 4
+     */
+    retain: boolean; // Retain flag for the last will message.
+}
+/**
  * Message used to stop MQTT client interface
  *
  * @generated from protobuf message Ciot.MqttClientStop
@@ -96,7 +117,11 @@ export interface MqttClientCfg {
     /**
      * @generated from protobuf field: Ciot.MqttClientBrokerKind broker_kind = 7
      */
-    brokerKind: MqttClientBrokerKind; // MQTT broker kind
+    brokerKind: MqttClientBrokerKind; // MQTT broker kind.
+    /**
+     * @generated from protobuf field: optional Ciot.MqttClientLastWill last_will = 8
+     */
+    lastWill?: MqttClientLastWill; // Last will message configuration.
 }
 /**
  * Message representing status information for the MQTT client.
@@ -463,6 +488,77 @@ class MqttClientTopicsCfg$Type extends MessageType<MqttClientTopicsCfg> {
  */
 export const MqttClientTopicsCfg = new MqttClientTopicsCfg$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class MqttClientLastWill$Type extends MessageType<MqttClientLastWill> {
+    constructor() {
+        super("Ciot.MqttClientLastWill", [
+            { no: 1, name: "topic", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "payload", kind: "scalar", T: 12 /*ScalarType.BYTES*/ },
+            { no: 3, name: "qos", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
+            { no: 4, name: "retain", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+        ]);
+    }
+    create(value?: PartialMessage<MqttClientLastWill>): MqttClientLastWill {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.topic = "";
+        message.payload = new Uint8Array(0);
+        message.qos = 0;
+        message.retain = false;
+        if (value !== undefined)
+            reflectionMergePartial<MqttClientLastWill>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: MqttClientLastWill): MqttClientLastWill {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string topic */ 1:
+                    message.topic = reader.string();
+                    break;
+                case /* bytes payload */ 2:
+                    message.payload = reader.bytes();
+                    break;
+                case /* uint32 qos */ 3:
+                    message.qos = reader.uint32();
+                    break;
+                case /* bool retain */ 4:
+                    message.retain = reader.bool();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: MqttClientLastWill, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string topic = 1; */
+        if (message.topic !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.topic);
+        /* bytes payload = 2; */
+        if (message.payload.length)
+            writer.tag(2, WireType.LengthDelimited).bytes(message.payload);
+        /* uint32 qos = 3; */
+        if (message.qos !== 0)
+            writer.tag(3, WireType.Varint).uint32(message.qos);
+        /* bool retain = 4; */
+        if (message.retain !== false)
+            writer.tag(4, WireType.Varint).bool(message.retain);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message Ciot.MqttClientLastWill
+ */
+export const MqttClientLastWill = new MqttClientLastWill$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class MqttClientStop$Type extends MessageType<MqttClientStop> {
     constructor() {
         super("Ciot.MqttClientStop", []);
@@ -510,7 +606,8 @@ class MqttClientCfg$Type extends MessageType<MqttClientCfg> {
             { no: 4, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "qos", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
             { no: 6, name: "topics", kind: "message", T: () => MqttClientTopicsCfg },
-            { no: 7, name: "broker_kind", kind: "enum", T: () => ["Ciot.MqttClientBrokerKind", MqttClientBrokerKind, "MQTT_CLIENT_BROKER_KIND_"] }
+            { no: 7, name: "broker_kind", kind: "enum", T: () => ["Ciot.MqttClientBrokerKind", MqttClientBrokerKind, "MQTT_CLIENT_BROKER_KIND_"] },
+            { no: 8, name: "last_will", kind: "message", T: () => MqttClientLastWill }
         ]);
     }
     create(value?: PartialMessage<MqttClientCfg>): MqttClientCfg {
@@ -551,6 +648,9 @@ class MqttClientCfg$Type extends MessageType<MqttClientCfg> {
                 case /* Ciot.MqttClientBrokerKind broker_kind */ 7:
                     message.brokerKind = reader.int32();
                     break;
+                case /* optional Ciot.MqttClientLastWill last_will */ 8:
+                    message.lastWill = MqttClientLastWill.internalBinaryRead(reader, reader.uint32(), options, message.lastWill);
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -584,6 +684,9 @@ class MqttClientCfg$Type extends MessageType<MqttClientCfg> {
         /* Ciot.MqttClientBrokerKind broker_kind = 7; */
         if (message.brokerKind !== 0)
             writer.tag(7, WireType.Varint).int32(message.brokerKind);
+        /* optional Ciot.MqttClientLastWill last_will = 8; */
+        if (message.lastWill)
+            MqttClientLastWill.internalBinaryWrite(message.lastWill, writer.tag(8, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
